@@ -102,7 +102,16 @@ This project is licensed under the GNU Affero General Public License v3.0 - see 
 
 ## Version History
 
+### 1.1.0
+- Added in-game configuration via Extra Settings API
+- Configurable hitmarker size (20-150 pixels)
+- Configurable display duration (0.1-2.0 seconds)
+- Configurable fade-in speed (0.0-0.5 seconds)
+- Configurable fade-out speed (0.0-0.5 seconds)
+- Custom hitmarker image support (load PNG from file path)
+- Reset to default image option
+
 ### 1.0.3
-- Current stable release
+- Initial stable release
 - Smooth fade animations
 - Support for all weapon types

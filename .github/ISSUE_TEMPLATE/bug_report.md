@@ -26,7 +26,8 @@ If applicable, add screenshots to help explain your problem.
 **Environment:**
  - Raft Version: [e.g. 1.0]
  - RaftModLoader Version: [e.g. 1.5.0]
- - HitMarker Version: [e.g. 1.0.3]
+ - HitMarker Version: [e.g. 1.1.0]
+ - Extra Settings API Version (if installed): [e.g. 1.10.0]
  - Other Mods Installed: [list other mods]
 
 **Console Logs**

@@ -51,6 +51,9 @@ $RECYCLE.BIN/
 # Kiro IDE directories
 .kiro/
 
+# Wiki/Documentation folders
+SettingsWiki/
+
 # NuGet Packages
 *.nupkg
 *.snupkg

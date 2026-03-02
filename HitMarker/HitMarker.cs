@@ -22,6 +22,7 @@ using UnityEngine.UI;
 using HMLLibrary;
 using HarmonyLib;
 using System.Runtime.CompilerServices;
+using System.IO;
 
 public class HitMarker : Mod
 {
@@ -42,9 +43,12 @@ public class HitMarker : Mod
     private float fadeInDuration = 0.1f;
     private float fadeOutDuration = 0.15f;
     private float hitmarkerSize = 50f;
+    private string customImagePath = "";
     
     // State
     private Coroutine hideCoroutine;
+    private Sprite defaultHitmarkerSprite;
+    private Sprite customHitmarkerSprite;
     
     // Extra Settings API integration
     static bool ExtraSettingsAPI_Loaded = false;
@@ -98,6 +102,28 @@ public class HitMarker : Mod
     }
     
     /// <summary>
+    /// Called when a button is pressed in the settings
+    /// </summary>
+    public void ExtraSettingsAPI_ButtonPress(string SettingName)
+    {
+        try
+        {
+            if (SettingName == "loadCustomImage")
+            {
+                LoadCustomImageFromPath();
+            }
+            else if (SettingName == "resetToDefault")
+            {
+                ResetToDefaultImage();
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[HitMarker] Error in button press: {ex.Message}");
+        }
+    }
+    
+    /// <summary>
     /// Load all settings from the Extra Settings API
     /// </summary>
     private void LoadSettingsFromAPI()
@@ -111,12 +137,96 @@ public class HitMarker : Mod
             displayDuration = ExtraSettingsAPI_GetSliderValue("displayDuration");
             fadeInDuration = ExtraSettingsAPI_GetSliderValue("fadeInDuration");
             fadeOutDuration = ExtraSettingsAPI_GetSliderValue("fadeOutDuration");
+            customImagePath = ExtraSettingsAPI_GetInputValue("customImagePath");
             
             UpdateHitmarkerSize();
         }
         catch (System.Exception ex)
         {
             Debug.LogError($"[HitMarker] Error loading settings: {ex.Message}");
+        }
+    }
+    
+    /// <summary>
+    /// Load a custom hitmarker image from the specified path
+    /// </summary>
+    private void LoadCustomImageFromPath()
+    {
+        if (!ExtraSettingsAPI_Loaded)
+            return;
+            
+        customImagePath = ExtraSettingsAPI_GetInputValue("customImagePath");
+        
+        // Trim whitespace and remove quotes if present
+        if (!string.IsNullOrWhiteSpace(customImagePath))
+        {
+            customImagePath = customImagePath.Trim().Trim('"').Trim('\'');
+        }
+        
+        if (string.IsNullOrWhiteSpace(customImagePath))
+        {
+            Debug.LogWarning("[HitMarker] No image path specified");
+            return;
+        }
+        
+        Debug.Log($"[HitMarker] Attempting to load image from: {customImagePath}");
+        
+        if (!File.Exists(customImagePath))
+        {
+            Debug.LogError($"[HitMarker] File not found: {customImagePath}");
+            return;
+        }
+        
+        try
+        {
+            byte[] fileData = File.ReadAllBytes(customImagePath);
+            
+            if (fileData == null || fileData.Length == 0)
+            {
+                Debug.LogError("[HitMarker] Failed to read image file");
+                return;
+            }
+            
+            Texture2D texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            texture.filterMode = FilterMode.Bilinear;
+            texture.wrapMode = TextureWrapMode.Clamp;
+            
+            if (texture.LoadImage(fileData))
+            {
+                customHitmarkerSprite = Sprite.Create(
+                    texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f),
+                    100f
+                );
+                
+                if (imageComponent != null)
+                {
+                    imageComponent.sprite = customHitmarkerSprite;
+                }
+                
+                Debug.Log($"[HitMarker] Successfully loaded custom image: {customImagePath}");
+            }
+            else
+            {
+                Debug.LogError("[HitMarker] Failed to load image data into texture");
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[HitMarker] Error loading custom image: {ex.Message}");
+        }
+    }
+    
+    /// <summary>
+    /// Reset to the default hitmarker image
+    /// </summary>
+    private void ResetToDefaultImage()
+    {
+        if (imageComponent != null && defaultHitmarkerSprite != null)
+        {
+            imageComponent.sprite = defaultHitmarkerSprite;
+            Debug.Log("[HitMarker] Reset to default image");
         }
     }
     
@@ -137,7 +247,10 @@ public class HitMarker : Mod
     // ============================================================================
     
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static float ExtraSettingsAPI_GetSliderValue(string SettingName) => 0f;
+    public float ExtraSettingsAPI_GetSliderValue(string SettingName) => 0f;
+    
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public string ExtraSettingsAPI_GetInputValue(string SettingName) => "";
 
     public void OnModUnload()
     {
@@ -341,6 +454,8 @@ public class HitMarker : Mod
                 );
             }
             
+            // Store the default sprite for later reset
+            defaultHitmarkerSprite = hitmarkerSprite;
             imageComponent.sprite = hitmarkerSprite;
         }
         catch (System.Exception ex)

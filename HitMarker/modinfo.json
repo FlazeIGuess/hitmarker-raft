@@ -2,7 +2,7 @@
   "name": "HitMarker",
   "author": "Flaze",
   "description": "Displays a visual hitmarker in the center of your screen whenever you successfully damage an enemy. The hitmarker appears for 0.5 seconds with smooth fade-in and fade-out animations. Works with all weapons including arrows, spears, and melee attacks.",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "license": "GNU AGPLv3",
   "icon": "icon.png",
   "banner": "banner.png",
@@ -19,7 +19,6 @@
       "access": "both",
       "default": 50,
       "range": {
-        "type": "int",
         "min": 20,
         "max": 150,
         "decimals": 0
@@ -28,11 +27,10 @@
     {
       "type": "slider",
       "name": "displayDuration",
-      "text": "Display Duration",
+      "text": "Display Duration (seconds)",
       "access": "both",
       "default": 0.5,
       "range": {
-        "type": "time",
         "min": 0.1,
         "max": 2.0,
         "decimals": 1
@@ -41,28 +39,48 @@
     {
       "type": "slider",
       "name": "fadeInDuration",
-      "text": "Fade In Speed",
+      "text": "Fade In Speed (seconds)",
       "access": "both",
       "default": 0.1,
       "range": {
-        "type": "time",
         "min": 0.0,
         "max": 0.5,
-        "decimals": 2
+        "decimals": 1
       }
     },
     {
       "type": "slider",
       "name": "fadeOutDuration",
-      "text": "Fade Out Speed",
+      "text": "Fade Out Speed (seconds)",
       "access": "both",
       "default": 0.15,
       "range": {
-        "type": "time",
         "min": 0.0,
         "max": 0.5,
-        "decimals": 2
+        "decimals": 1
       }
+    },
+    {
+      "type": "input",
+      "name": "customImagePath",
+      "text": "Custom Hitmarker Image Path",
+      "access": "both",
+      "default": "",
+      "max": 500,
+      "mode": "Standard",
+      "tooltip": "Enter the full path to a PNG file (e.g., C:\\Users\\YourName\\Pictures\\hitmarker.png). Leave empty to use default hitmarker."
+    },
+    {
+      "type": "button",
+      "name": "loadCustomImage",
+      "text": "Load Custom Image",
+      "tooltip": "Click to load the image from the path above"
+    },
+    {
+      "type": "button",
+      "name": "resetToDefault",
+      "text": "Reset to Default Image",
+      "tooltip": "Click to restore the default hitmarker image"
     }
   ]
 }
