@@ -21,6 +21,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using HMLLibrary;
 using HarmonyLib;
+using System.Runtime.CompilerServices;
 
 public class HitMarker : Mod
 {
@@ -34,14 +35,19 @@ public class HitMarker : Mod
     private Canvas hitmarkerCanvas;
     private GameObject hitmarkerImage;
     private Image imageComponent;
+    private RectTransform hitmarkerRect;
     
-    // Configuration
+    // Configuration (can be changed via Extra Settings API)
     private float displayDuration = 0.5f;
     private float fadeInDuration = 0.1f;
     private float fadeOutDuration = 0.15f;
+    private float hitmarkerSize = 50f;
     
     // State
     private Coroutine hideCoroutine;
+    
+    // Extra Settings API integration
+    static bool ExtraSettingsAPI_Loaded = false;
 
     public void Start()
     {
@@ -59,6 +65,79 @@ public class HitMarker : Mod
         
         CreateHitmarkerUI();
     }
+    
+    // ============================================================================
+    // EXTRA SETTINGS API INTEGRATION
+    // ============================================================================
+    
+    /// <summary>
+    /// Called when Extra Settings API loads this mod's settings
+    /// </summary>
+    public void ExtraSettingsAPI_Load()
+    {
+        LoadSettingsFromAPI();
+    }
+    
+    /// <summary>
+    /// Called when settings menu is opened
+    /// </summary>
+    public void ExtraSettingsAPI_SettingsOpen()
+    {
+        // Settings are loaded when menu opens
+        LoadSettingsFromAPI();
+    }
+    
+    /// <summary>
+    /// Called when settings menu is closed
+    /// </summary>
+    public void ExtraSettingsAPI_SettingsClose()
+    {
+        // Apply any changed settings
+        LoadSettingsFromAPI();
+        UpdateHitmarkerSize();
+    }
+    
+    /// <summary>
+    /// Load all settings from the Extra Settings API
+    /// </summary>
+    private void LoadSettingsFromAPI()
+    {
+        if (!ExtraSettingsAPI_Loaded)
+            return;
+            
+        try
+        {
+            hitmarkerSize = ExtraSettingsAPI_GetSliderValue("hitmarkerSize");
+            displayDuration = ExtraSettingsAPI_GetSliderValue("displayDuration");
+            fadeInDuration = ExtraSettingsAPI_GetSliderValue("fadeInDuration");
+            fadeOutDuration = ExtraSettingsAPI_GetSliderValue("fadeOutDuration");
+            
+            UpdateHitmarkerSize();
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[HitMarker] Error loading settings: {ex.Message}");
+        }
+    }
+    
+    /// <summary>
+    /// Update the hitmarker size in the UI
+    /// </summary>
+    private void UpdateHitmarkerSize()
+    {
+        if (hitmarkerRect != null)
+        {
+            hitmarkerRect.sizeDelta = new Vector2(hitmarkerSize, hitmarkerSize);
+        }
+    }
+    
+    // ============================================================================
+    // EXTRA SETTINGS API STUB METHODS
+    // These are replaced by the API at runtime
+    // ============================================================================
+    
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static float ExtraSettingsAPI_GetSliderValue(string SettingName) => 0f;
 
     public void OnModUnload()
     {
@@ -194,12 +273,12 @@ public class HitMarker : Mod
             imageComponent = hitmarkerImage.AddComponent<Image>();
             hitmarkerImage.SetActive(false);
             
-            RectTransform rectTransform = hitmarkerImage.GetComponent<RectTransform>();
-            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            rectTransform.anchoredPosition = Vector2.zero;
-            rectTransform.sizeDelta = new Vector2(50f, 50f);
+            hitmarkerRect = hitmarkerImage.GetComponent<RectTransform>();
+            hitmarkerRect.anchorMin = new Vector2(0.5f, 0.5f);
+            hitmarkerRect.anchorMax = new Vector2(0.5f, 0.5f);
+            hitmarkerRect.pivot = new Vector2(0.5f, 0.5f);
+            hitmarkerRect.anchoredPosition = Vector2.zero;
+            hitmarkerRect.sizeDelta = new Vector2(hitmarkerSize, hitmarkerSize);
             
             imageComponent.color = new Color(1f, 1f, 1f, 0f);
             

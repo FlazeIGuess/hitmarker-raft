@@ -5,10 +5,11 @@ A visual feedback mod that displays a hitmarker in the center of your screen whe
 ## Features
 
 - Visual hitmarker appears on successful hits
-- Smooth fade-in and fade-out animations (0.5 seconds total)
+- Smooth fade-in and fade-out animations
 - Works with all weapons (arrows, spears, melee attacks)
 - Lightweight and performance-friendly
 - Client-side only (doesn't require all players to have it installed)
+- Configurable via in-game settings (requires Extra Settings API)
 
 ## Installation
 
@@ -16,6 +17,19 @@ A visual feedback mod that displays a hitmarker in the center of your screen whe
 2. Download the latest `HitMarker.rmod` file from the [releases page](https://github.com/FlazeIGuess/hitmarker-raft/releases)
 3. Place the `.rmod` file in your RaftModLoader mods folder
 4. Launch Raft through RaftModLoader
+
+## Configuration (Optional)
+
+For in-game configuration, install the [Extra Settings API](https://www.raftmodding.com/mods/extra-settings-api) mod. This allows you to customize:
+
+- Hitmarker size (20-150 pixels)
+- Display duration (0.1-2.0 seconds)
+- Fade-in speed (0.0-0.5 seconds)
+- Fade-out speed (0.0-0.5 seconds)
+
+Access settings via: Main Menu > Settings > Mods tab
+
+The mod works perfectly fine without Extra Settings API using default values.
 
 ## Building from Source
 
