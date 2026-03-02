@@ -7,7 +7,6 @@ A visual feedback mod that displays a hitmarker in the center of your screen whe
 - Visual hitmarker appears on successful hits
 - Smooth fade-in and fade-out animations (0.5 seconds total)
 - Works with all weapons (arrows, spears, melee attacks)
-- Customizable hitmarker image
 - Lightweight and performance-friendly
 - Client-side only (doesn't require all players to have it installed)
 
@@ -46,13 +45,18 @@ A visual feedback mod that displays a hitmarker in the center of your screen whe
 
 4. The mod will be automatically packaged as `HitMarker.rmod` in the root directory
 
-## Configuration
+## Customization (for developers)
 
-The hitmarker behavior can be customized by modifying the following values in `HitMarker.cs`:
+To customize the mod, you need to modify the source code and rebuild:
 
+### Timing Configuration
+Edit the following values in `HitMarker.cs`:
 - `displayDuration`: How long the hitmarker stays visible (default: 0.5 seconds)
 - `fadeInDuration`: Fade-in animation duration (default: 0.1 seconds)
 - `fadeOutDuration`: Fade-out animation duration (default: 0.15 seconds)
+
+### Custom Hitmarker Image
+Replace `HitMarker/hitmarker.png` with your own image and rebuild the mod. The image will be embedded in the compiled `.rmod` file.
 
 ## How It Works
 
