@@ -100,18 +100,3 @@ This project is licensed under the GNU Affero General Public License v3.0 - see 
 - Report bugs on the [Issues page](https://github.com/FlazeIGuess/hitmarker-raft/issues)
 - Join the [Raft Modding Discord](https://www.raftmodding.com/discord)
 
-## Version History
-
-### 1.1.0
-- Added in-game configuration via Extra Settings API
-- Configurable hitmarker size (20-150 pixels)
-- Configurable display duration (0.1-2.0 seconds)
-- Configurable fade-in speed (0.0-0.5 seconds)
-- Configurable fade-out speed (0.0-0.5 seconds)
-- Custom hitmarker image support (load PNG from file path)
-- Reset to default image option
-
-### 1.0.3
-- Initial stable release
-- Smooth fade animations
-- Support for all weapon types
