@@ -1,0 +1,14 @@
+{
+  "name": "HitMarker",
+  "author": "Flaze",
+  "description": "Displays a visual hitmarker in the center of your screen whenever you successfully damage an enemy. The hitmarker appears for 0.5 seconds with smooth fade-in and fade-out animations. Works with all weapons including arrows, spears, and melee attacks.",
+  "version": "1.0.3",
+  "license": "GNU AGPLv3",
+  "icon": "icon.png",
+  "banner": "banner.png",
+  "gameVersion": "1.0",
+  "requiredByAllPlayers": false,
+  "updateUrl": "",
+  "isModPermanent": false,
+  "excludedFiles": []
+}
