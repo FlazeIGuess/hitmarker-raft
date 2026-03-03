@@ -7,6 +7,9 @@ A visual feedback mod that displays a hitmarker in the center of your screen whe
 - Visual hitmarker appears on successful hits
 - Smooth fade-in and fade-out animations
 - Works with all weapons (arrows, spears, melee attacks)
+- Customizable hitmarker color (RGB sliders)
+- Combo counter that displays consecutive hits below the crosshair
+- Adjustable combo reset time
 - Lightweight and performance-friendly
 - Client-side only (doesn't require all players to have it installed)
 - Configurable via in-game settings (requires Extra Settings API)
@@ -22,10 +25,22 @@ A visual feedback mod that displays a hitmarker in the center of your screen whe
 
 For in-game configuration, install the [Extra Settings API](https://www.raftmodding.com/mods/extra-settings-api) mod. This allows you to customize:
 
+### Appearance Settings
 - Hitmarker size (20-150 pixels)
+- Hitmarker color (RGB sliders, 0.0-1.0 for each channel)
+
+### Timing Settings
 - Display duration (0.1-2.0 seconds)
 - Fade-in speed (0.0-0.5 seconds)
 - Fade-out speed (0.0-0.5 seconds)
+
+### Combo Counter Settings
+- Enable/disable combo counter display
+- Combo reset time (1-10 seconds, default: 5 seconds)
+
+### Custom Image Settings
+- Load custom hitmarker images from file path
+- Reset to default hitmarker
 
 Access settings via: Main Menu > Settings > Mods tab
 
