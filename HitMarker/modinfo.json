@@ -2,7 +2,7 @@
   "name": "HitMarker",
   "author": "Flaze",
   "description": "Displays a visual hitmarker in the center of your screen whenever you successfully damage an enemy. The hitmarker appears for 0.5 seconds with smooth fade-in and fade-out animations. Works with all weapons including arrows, spears, and melee attacks.",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "license": "GNU AGPLv3",
   "icon": "icon.png",
   "banner": "banner.png",
@@ -11,13 +11,7 @@
   "updateUrl": "https://www.raftmodding.com/api/v1/mods/hitmarker/version.txt",
   "isModPermanent": false,
   "excludedFiles": [],
-  "requiredMods": [
-    {
-      "name": "RuntimeSettingsAPI",
-      "version": "1.0.0",
-      "optional": true
-    }
-  ],
+  "requiredMods": [],
   "modSettings": [
     {
       "type": "section",
@@ -126,18 +120,21 @@
     {
       "type": "section",
       "name": "comboSection",
-      "text": "Combo Counter Settings"
+      "text": "Combo Counter Settings",
+      "access": "GlobalCustom"
     },
     {
       "type": "text",
+      "name": "comboNote",
       "text": "Note: If ComboCounter mod is installed, these settings are ignored and the standalone mod is used instead.",
+      "access": "GlobalCustom",
       "section": "comboSection"
     },
     {
       "type": "checkbox",
       "name": "showComboCounter",
       "text": "Show Combo Counter",
-      "access": "both",
+      "access": "GlobalCustom",
       "default": true,
       "section": "comboSection",
       "tooltip": "Display combo counter when landing consecutive hits"
@@ -146,7 +143,7 @@
       "type": "slider",
       "name": "comboResetTime",
       "text": "Combo Reset Time (seconds)",
-      "access": "both",
+      "access": "GlobalCustom",
       "default": 5,
       "range": {
         "min": 1,

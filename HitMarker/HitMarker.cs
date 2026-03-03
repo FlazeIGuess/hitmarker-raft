@@ -105,16 +105,6 @@ public class HitMarker : Mod
         }
     }
     
-    /// <summary>
-    /// Called by ComboCounter mod to notify HitMarker that it's loaded.
-    /// Also called automatically by the periodic Update() check.
-    /// </summary>
-    public void NotifyComboCounterLoaded()
-    {
-        if (!comboCounterModDetected)
-            OnComboCounterLoaded();
-    }
-
     private void OnComboCounterLoaded()
     {
         comboCounterModDetected = true;
@@ -138,9 +128,6 @@ public class HitMarker : Mod
         comboCount = 0;
         killCount = 0;
 
-        // Hide combo settings (if ExtraSettingsAPI is already loaded)
-        if (ExtraSettingsAPI_Loaded)
-            RuntimeSettingsAPIHelper.HideSection(this, "HitMarker", "comboSection");
     }
 
     private void OnComboCounterUnloaded()
@@ -151,9 +138,6 @@ public class HitMarker : Mod
         if (comboCounterText == null)
             CreateComboCounterUI();
 
-        // Show combo settings again
-        if (ExtraSettingsAPI_Loaded)
-            RuntimeSettingsAPIHelper.ShowSection(this, "HitMarker", "comboSection");
     }
     
     private bool IsComboCounterModLoaded()
@@ -236,9 +220,7 @@ public class HitMarker : Mod
         ExtraSettingsAPI_Loaded = true;
         LoadSettingsFromAPI();
         
-        // Apply correct visibility for combo section now that the settings UI exists
-        if (comboCounterModDetected)
-            RuntimeSettingsAPIHelper.HideSection(this, "HitMarker", "comboSection");
+        // Combo section visibility is handled automatically via ExtraSettingsAPI_HandleSettingVisible
     }
     
     /// <summary>
@@ -574,6 +556,24 @@ public class HitMarker : Mod
     
     [MethodImpl(MethodImplOptions.NoInlining)]
     public bool ExtraSettingsAPI_GetCheckboxState(string SettingName) => false;
+
+    /// <summary>
+    /// Called by ExtraSettingsAPI to determine visibility of settings with access="GlobalCustom".
+    /// Returns false for combo section settings when ComboCounter mod is installed.
+    /// </summary>
+    public bool ExtraSettingsAPI_HandleSettingVisible(string settingName, bool isInWorld)
+    {
+        switch (settingName)
+        {
+            case "comboSection":
+            case "comboNote":
+            case "showComboCounter":
+            case "comboResetTime":
+                return !comboCounterModDetected;
+            default:
+                return true;
+        }
+    }
     
 
 
